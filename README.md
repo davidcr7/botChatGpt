@@ -1,4 +1,4 @@
-# wechatbot
+# botChatGpt
 > 最近chatGPT异常火爆，本项目可以将个人微信化身GPT机器人，
 > 项目基于[openwechat](https://github.com/eatmoreapple/openwechat) 开发。
 
