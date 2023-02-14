@@ -16,6 +16,10 @@ type Configuration struct {
 	AutoPass bool `json:"auto_pass"`
 	// 会话超时时间
 	SessionTimeout time.Duration `json:"session_timeout"`
+	//单独对话触发消息昵称
+	SingleUserNickname string `json:"single_user_nickname"`
+	//群聊对话触发消息昵称
+	GroupUserNickname string `json:"group_user_nickname"`
 }
 
 var config *Configuration
@@ -38,6 +42,16 @@ func LoadConfig() *Configuration {
 		err = encoder.Decode(config)
 		if err != nil {
 			log.Fatalf("decode config err: %v", err)
+			return
+		}
+
+		if len(config.SingleUserNickname) == 0 {
+			log.Fatalf("请配置私信机器人昵称")
+			return
+		}
+
+		if len(config.GroupUserNickname) == 0 {
+			log.Fatalf("请配置群聊机器人昵称")
 			return
 		}
 

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/869413421/wechatbot/config"
 	"github.com/869413421/wechatbot/gtp"
 	"github.com/eatmoreapple/openwechat"
 	"log"
@@ -28,9 +29,11 @@ func NewGroupMessageHandler() MessageHandlerInterface {
 
 // ReplyText 发送文本消息到群
 func (g *GroupMessageHandler) ReplyText(msg *openwechat.Message) error {
-	if !strings.Contains(msg.Content, "@West-Anna"){
+	GroupUserNickname := config.LoadConfig().GroupUserNickname
+	if !strings.Contains(msg.Content, GroupUserNickname) {
 		return nil
 	}
+	msg.Content = strings.Replace(msg.Content, GroupUserNickname, "", -1)
 	// 接收群消息
 	sender, err := msg.Sender()
 	group := openwechat.Group{User: sender}

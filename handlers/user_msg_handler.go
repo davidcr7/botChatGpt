@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/869413421/wechatbot/config"
 	"github.com/869413421/wechatbot/gtp"
 	"github.com/eatmoreapple/openwechat"
 	"log"
@@ -28,9 +29,11 @@ func NewUserMessageHandler() MessageHandlerInterface {
 
 // ReplyText 发送文本消息到群
 func (g *UserMessageHandler) ReplyText(msg *openwechat.Message) error {
-	if !strings.Contains(msg.Content, "@West-Anna"){
+	SingleUserNickname := config.LoadConfig().SingleUserNickname
+	if !strings.Contains(msg.Content, SingleUserNickname) {
 		return nil
 	}
+	msg.Content = strings.Replace(msg.Content, SingleUserNickname, "", -1)
 	// 接收私聊消息
 	sender, err := msg.Sender()
 	log.Printf("Received User %v Text Msg : %v", sender.NickName, msg.Content)
